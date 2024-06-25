@@ -1,0 +1,24 @@
+id: weaver-ecology-directory-traversal
+
+info:
+  name: 致远M3敏感信息泄露漏洞
+  author: Ashro
+  description: 致远M3办公系统中，/mobile_portal/logs/autoLogin.log 文件可能会泄露敏感信息。
+  reference:
+    - https://example.com/reference-to-vulnerability
+  severity: high
+  tags: info-leak
+
+requests:
+  - method: GET
+    path:
+      - "{{BaseURL}}/mobile_portal/logs/autoLogin.log"
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "M3 自动登录"
+      - type: status
+        status:
+          - 200

